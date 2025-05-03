@@ -133,7 +133,7 @@ public class egaPtnuocsid extends JFrame {
             protected void paintBorder(Graphics g) {}
             public boolean isContentAreaFilled() { return false; }
         };
-        submitBtn.setFont(poppinsFont.deriveFont(Font.BOLD, 22f));
+        submitBtn.setFont(robotoFlexFont.deriveFont(Font.PLAIN, 20f));
         submitBtn.setBackground(new Color(121, 85, 72));
         submitBtn.setForeground(Color.WHITE);
         submitBtn.setFocusPainted(false);
@@ -232,7 +232,7 @@ public class egaPtnuocsid extends JFrame {
         button.setMinimumSize(size);
 
         float fontSize = size.height * 0.4f;
-        button.setFont(poppinsFont.deriveFont(Font.BOLD, fontSize));
+        button.setFont(robotoFlexFont.deriveFont(Font.BOLD, fontSize));
 
         button.setFocusPainted(false);
         button.setBackground(new Color(121, 85, 72));
