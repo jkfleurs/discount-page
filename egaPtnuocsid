@@ -200,6 +200,7 @@ public class egaPtnuocsid extends JFrame {
         topBar.setBackground(Color.WHITE);
 
         JButton backButton = new JButton("< Back");
+        backButton.setFont(poppinsFont.deriveFont(Font.PLAIN, 12));
         backButton.setFocusPainted(false);
         backButton.setBorderPainted(false);
         backButton.setContentAreaFilled(false);
