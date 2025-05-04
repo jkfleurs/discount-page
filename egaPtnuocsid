@@ -2,29 +2,10 @@ package discount;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class egaPtnuocsid extends JFrame {
     private static CardLayout cardLayout;
     private static JPanel mainPanel;
-
-    static Font gugiFont = loadFont("src/discount/Gugi-Regular.ttf", 70f);
-    static Font balooFont = loadFont("src/discount/Baloo-Regular.ttf", 25f);
-    static Font poppinsFont = loadFont("src/discount/Poppins-Black.ttf", 20f);
-    static Font robotoFlexFont = loadFont("src/discount/RobotoFlex.ttf", 20f);
-
-    private static Font loadFont(String path, float size) {
-        try {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, new java.io.File(path)).deriveFont(size);
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(font);
-            return font;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Font("SansSerif", Font.PLAIN, (int) size);
-        }
-    }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Discount Page");
@@ -56,11 +37,11 @@ public class egaPtnuocsid extends JFrame {
         center.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel title = new JLabel("K. Co");
-        title.setFont(gugiFont);
+        title.setFont(new Font("Gugi", Font.BOLD, 70));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel subtitle = new JLabel("Discount Options");
-        subtitle.setFont(balooFont);
+        subtitle.setFont(new Font("Baloo", Font.PLAIN, 25));
         subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JButton pwdBtn = menuButton("PWD", "PWD");
@@ -97,18 +78,18 @@ public class egaPtnuocsid extends JFrame {
         center.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel title = new JLabel("K. Co");
-        title.setFont(gugiFont);
+        title.setFont(new Font("Gugi", Font.BOLD, 70));
         title.setForeground(new Color(60, 60, 60));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel subtitle = new JLabel("Register Card Number");
-        subtitle.setFont(poppinsFont);
+        subtitle.setFont(new Font("Poppins Black", Font.PLAIN, 20));
         subtitle.setForeground(new Color(100, 100, 100));
         subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JTextField cardInput = new JTextField();
         cardInput.setMaximumSize(new Dimension(300, 50));
-        cardInput.setFont(robotoFlexFont);
+        cardInput.setFont(new Font("RobotoFlex", Font.PLAIN, 20));
         cardInput.setHorizontalAlignment(JTextField.CENTER);
         cardInput.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(180, 180, 180), 2),
@@ -116,7 +97,7 @@ public class egaPtnuocsid extends JFrame {
         ));
 
         JLabel messageLabel = new JLabel(" ");
-        messageLabel.setFont(poppinsFont.deriveFont(9f));
+        messageLabel.setFont(new Font("Poppins Black", Font.PLAIN, 9));
         messageLabel.setForeground(Color.RED);
         messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -133,7 +114,7 @@ public class egaPtnuocsid extends JFrame {
             protected void paintBorder(Graphics g) {}
             public boolean isContentAreaFilled() { return false; }
         };
-        submitBtn.setFont(robotoFlexFont.deriveFont(Font.PLAIN, 20f));
+        submitBtn.setFont(new Font("RobotoFlex", Font.PLAIN , 20));
         submitBtn.setBackground(new Color(121, 85, 72));
         submitBtn.setForeground(Color.WHITE);
         submitBtn.setFocusPainted(false);
@@ -200,7 +181,7 @@ public class egaPtnuocsid extends JFrame {
         topBar.setBackground(Color.WHITE);
 
         JButton backButton = new JButton("< Back");
-        backButton.setFont(poppinsFont.deriveFont(Font.PLAIN, 12));
+        backButton.setFont(new Font("Poppins Black", Font.PLAIN, 12));
         backButton.setFocusPainted(false);
         backButton.setBorderPainted(false);
         backButton.setContentAreaFilled(false);
@@ -232,8 +213,8 @@ public class egaPtnuocsid extends JFrame {
         button.setMaximumSize(size);
         button.setMinimumSize(size);
 
-        float fontSize = size.height * 0.4f;
-        button.setFont(robotoFlexFont.deriveFont(Font.BOLD, fontSize));
+        int fontSize = (int) (size.height * 0.4);
+        button.setFont(new Font("RobotoFlex", Font.BOLD, fontSize));
 
         button.setFocusPainted(false);
         button.setBackground(new Color(121, 85, 72));
