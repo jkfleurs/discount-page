@@ -1,0 +1,249 @@
+package discount;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class customizationfinal {
+    private final CardLayout cardLayout;
+    private final JPanel mainPanel;
+
+    public customizationfinal(CardLayout layout, JPanel panel) {
+        this.cardLayout = layout;
+        this.mainPanel = panel;
+    }
+
+    public JPanel getRegisterPanel(String type) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(new Color(245, 245, 245));
+        panel.add(topBar(), BorderLayout.NORTH);
+
+        JPanel center = new JPanel();
+        center.setBackground(Color.WHITE);
+        center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
+        center.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
+        center.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel title = new JLabel("K. Co");
+        title.setFont(new Font("Gugi", Font.BOLD, 70));
+        title.setForeground(new Color(60, 60, 60));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        String cardTypeLabel = switch (type) {
+            case "Senior" -> "Register Senior Card Number";
+            case "PWD" -> "Register PWD Card Number";
+            case "Member" -> "Register Member Number";
+            default -> "Register Card Number";
+        };
+
+        JLabel subtitle = new JLabel(cardTypeLabel);
+        subtitle.setFont(new Font("Poppins Black", Font.PLAIN, 20));
+        subtitle.setForeground(new Color(100, 100, 100));
+        subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JTextField cardInput = new JTextField();
+        cardInput.setMaximumSize(new Dimension(300, 50));
+        cardInput.setFont(new Font("RobotoFlex", Font.PLAIN, 20));
+        cardInput.setHorizontalAlignment(JTextField.CENTER);
+        cardInput.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(180, 180, 180), 2),
+            BorderFactory.createEmptyBorder(10, 10, 10, 10)
+        ));
+
+        JLabel messageLabel = new JLabel(" ");
+        messageLabel.setFont(new Font("Poppins Black", Font.PLAIN, 9));
+        messageLabel.setForeground(Color.RED);
+        messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JPanel keypadPanel = keypad(cardInput, type, messageLabel);
+        keypadPanel.setVisible(false);
+
+        cardInput.addFocusListener(new FocusAdapter() {
+            public void focusGained(FocusEvent e) {
+                if (!keypadPanel.isVisible()) animatePopup(keypadPanel, true);
+            }
+        });
+
+        center.add(Box.createVerticalStrut(40));
+        center.add(title);
+        center.add(Box.createVerticalStrut(20));
+        center.add(subtitle);
+        center.add(Box.createVerticalStrut(30));
+        center.add(cardInput);
+        center.add(Box.createVerticalStrut(10));
+        center.add(messageLabel);
+        center.add(Box.createVerticalStrut(10));
+        center.add(keypadPanel);
+
+        panel.add(center, BorderLayout.CENTER);
+        return panel;
+    }
+
+    public JPanel getBlankPanel() {
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.WHITE);
+        return panel;
+    }
+
+    private JPanel keypad(JTextField input, String type, JLabel messageLabel) {
+        JPanel keypad = new JPanel(new GridLayout(4, 3, 10, 10));
+        keypad.setBackground(Color.WHITE);
+        keypad.setMaximumSize(new Dimension(300, 300));
+        keypad.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        Font numberFont = new Font("RobotoFlex", Font.BOLD, 24);
+        Font actionFont = new Font("RobotoFlex", Font.BOLD, 18);
+        Color brown = new Color(121, 85, 72);
+        Color red = new Color(211, 47, 47);
+        Color green = new Color(76, 175, 80);
+
+        for (int i = 1; i <= 9; i++) {
+            String digit = String.valueOf(i);
+            JButton btn = keyButton(digit, input, numberFont);
+            btn.setBackground(brown);
+            keypad.add(btn);
+        }
+
+        JButton deleteBtn = new JButton("Delete") {
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
+                super.paintComponent(g);
+                g2.dispose();
+            }
+            public boolean isContentAreaFilled() { return false; }
+        };
+        deleteBtn.setFont(actionFont);
+        deleteBtn.setBackground(red);
+        deleteBtn.setForeground(Color.WHITE);
+        deleteBtn.setFocusPainted(false);
+        deleteBtn.setOpaque(false);
+        deleteBtn.setBorderPainted(false);
+        deleteBtn.addActionListener(e -> {
+            String text = input.getText();
+            if (!text.isEmpty()) {
+                input.setText(text.substring(0, text.length() - 1));
+            }
+        });
+        keypad.add(deleteBtn);
+
+        JButton zeroBtn = keyButton("0", input, numberFont);
+        zeroBtn.setBackground(brown);
+        keypad.add(zeroBtn);
+
+        JButton enterBtn = new JButton("Enter") {
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
+                super.paintComponent(g);
+                g2.dispose();
+            }
+            public boolean isContentAreaFilled() { return false; }
+        };
+        enterBtn.setFont(actionFont);
+        enterBtn.setBackground(green);
+        enterBtn.setForeground(Color.WHITE);
+        enterBtn.setFocusPainted(false);
+        enterBtn.setOpaque(false);
+        enterBtn.setBorderPainted(false);
+        enterBtn.setPreferredSize(new Dimension(100, 50));
+        enterBtn.addActionListener(e -> {
+            String inputText = input.getText();
+            boolean isValid = false;
+
+            if (type.equals("PWD")) {
+                if (inputText.matches("\\d{2}\\d{4}\\d{3}\\d{7}")) {
+                    isValid = true;
+                } else {
+                    messageLabel.setText("Invalid PWD ID format! (RRPPMMBBBNNNNNNN)");
+                }
+            } else if (type.equals("Member")) {
+                if (inputText.matches("\\d{7}")) {
+                    isValid = true;
+                } else {
+                    messageLabel.setText("Invalid Member Number!");
+                }
+            } else {
+                if (!inputText.isEmpty() && inputText.matches("\\d+")) {
+                    isValid = true;
+                } else {
+                    messageLabel.setText("Invalid input! Numbers only.");
+                }
+            }
+
+            if (isValid) {
+                messageLabel.setForeground(new Color(0, 153, 51));
+                messageLabel.setText("Registered " + type + " Number: " + inputText);
+                animatePopup((JPanel) enterBtn.getParent(), false);
+                cardLayout.show(mainPanel, "NextPage");
+            } else {
+                messageLabel.setForeground(Color.RED);
+            }
+        });
+        keypad.add(enterBtn);
+
+        return keypad;
+    }
+
+    private JButton keyButton(String text, JTextField input, Font font) {
+        JButton button = new JButton(text) {
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
+                super.paintComponent(g);
+                g2.dispose();
+            }
+            public boolean isContentAreaFilled() { return false; }
+        };
+        button.setFont(font);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setOpaque(false);
+        button.setBorderPainted(false);
+        button.addActionListener(e -> input.setText(input.getText() + text));
+        return button;
+    }
+
+    private void animatePopup(JPanel panel, boolean show) {
+        Timer timer = new Timer(15, null);
+        final float[] opacity = { show ? 0f : 1f };
+
+        timer.addActionListener(e -> {
+            opacity[0] += show ? 0.1f : -0.1f;
+            panel.setVisible(true);
+            panel.setOpaque(true);
+            panel.repaint();
+
+            if (opacity[0] >= 1f && show) {
+                timer.stop();
+            } else if (opacity[0] <= 0f && !show) {
+                panel.setVisible(false);
+                timer.stop();
+            }
+        });
+
+        timer.start();
+    }
+
+    private JPanel topBar() {
+        JPanel topBar = new JPanel(new BorderLayout());
+        topBar.setBackground(Color.WHITE);
+
+        JButton backButton = new JButton("< Back");
+        backButton.setFont(new Font("Poppins Black", Font.PLAIN, 12));
+        backButton.setFocusPainted(false);
+        backButton.setBorderPainted(false);
+        backButton.setContentAreaFilled(false);
+        backButton.setPreferredSize(new Dimension(80, 50));
+        backButton.addActionListener(e -> cardLayout.show(mainPanel, "DiscountOptions"));
+
+        topBar.add(backButton, BorderLayout.WEST);
+        return topBar;
+    }
+}
