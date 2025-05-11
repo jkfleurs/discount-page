@@ -4,15 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class egaPtnuocsid extends JFrame {
+public class egaPtnuocsid {
     private static CardLayout cardLayout;
     private static JPanel mainPanel;
 
     public void initialize() {
-        setTitle("Discount Page");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 600);
-        setLocationRelativeTo(null);
+
 
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
@@ -25,8 +22,7 @@ public class egaPtnuocsid extends JFrame {
         mainPanel.add(customizer.getRegisterPanel("PWD"), "PWD");
         mainPanel.add(customizer.getBlankPanel(), "NextPage");
 
-        add(mainPanel);
-        setVisible(true);
+
     }
 
     private static JPanel discountOptions() {
