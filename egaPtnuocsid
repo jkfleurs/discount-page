@@ -2,7 +2,6 @@ package discount;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class egaPtnuocsid {
     private static CardLayout cardLayout;
@@ -10,11 +9,11 @@ public class egaPtnuocsid {
 
     public void initialize() {
 
-
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
         customizationfinal customizer = new customizationfinal(cardLayout, mainPanel);
+
 
         mainPanel.add(discountOptions(), "DiscountOptions");
         mainPanel.add(customizer.getRegisterPanel("Senior"), "Senior");
@@ -22,14 +21,22 @@ public class egaPtnuocsid {
         mainPanel.add(customizer.getRegisterPanel("PWD"), "PWD");
         mainPanel.add(customizer.getBlankPanel(), "NextPage");
 
+        // Create main frame and show it
+        JFrame frame = new JFrame("K. Co Discount System");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(480, 720);
+        frame.setLocationRelativeTo(null);
+        frame.setContentPane(mainPanel);
+        frame.setVisible(true);
 
+        cardLayout.show(mainPanel, "DiscountOptions");
     }
 
     private static JPanel discountOptions() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Color.WHITE);
 
-        panel.add(topBar(), BorderLayout.NORTH);  
+        panel.add(topBar(), BorderLayout.NORTH);
 
         JPanel center = new JPanel();
         center.setBackground(Color.WHITE);
@@ -93,7 +100,9 @@ public class egaPtnuocsid {
                 g2.dispose();
             }
 
-            public boolean isContentAreaFilled() { return false; }
+            public boolean isContentAreaFilled() {
+                return false;
+            }
         };
 
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -119,7 +128,8 @@ public class egaPtnuocsid {
     }
 
     public static void main(String[] args) {
-        egaPtnuocsid app = new egaPtnuocsid();
-        app.initialize();
+        SwingUtilities.invokeLater(() -> {
+            new egaPtnuocsid().initialize();
+        });
     }
 }
