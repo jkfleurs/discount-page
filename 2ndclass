@@ -179,7 +179,7 @@ public class customizationfinal {
                 messageLabel.setForeground(new Color(0, 153, 51));
                 messageLabel.setText("Registered " + type + " Number: " + inputText);
                 animatePopup((JPanel) enterBtn.getParent(), false);
-                cardLayout.show(mainPanel, "NextPage");
+                cardLayout.show(mainPanel, "Blank");
             } else {
                 messageLabel.setForeground(Color.RED);
             }
@@ -245,5 +245,28 @@ public class customizationfinal {
 
         topBar.add(backButton, BorderLayout.WEST);
         return topBar;
+    }
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Discount Register");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(500, 650);
+
+            CardLayout layout = new CardLayout();
+            JPanel panel = new JPanel(layout);
+
+            customizationfinal custom = new customizationfinal(layout, panel);
+            panel.add(custom.getRegisterPanel("Senior"), "Senior");
+            panel.add(custom.getRegisterPanel("PWD"), "PWD");
+            panel.add(custom.getRegisterPanel("Member"), "Member");
+            panel.add(custom.getBlankPanel(), "Blank");
+
+            layout.show(panel, "Senior");
+
+            frame.setContentPane(panel);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
     }
 }
